@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-ws": "^4.0.0",
+    "firebase-admin": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.7",
+    "@types/express-ws": "^3.0.0",
+    "@types/node": "^14.0.23",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.9.7"
+  },
+  "scripts": {
+    "dev": "nodemon index.ts --exec ts-node"
+  }
+}
