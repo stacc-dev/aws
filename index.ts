@@ -100,6 +100,7 @@ app.ws('/server', (socket) => {
     if (message) socket.send(JSON.stringify({ type: 'MESSAGE', message }))
     for (let timeout of state.timeouts) clearTimeout(timeout)
     for (let interval of state.intervals) clearInterval(interval)
+    tokenStore.off('realtime', listener)
     if (socket.readyState === socket.OPEN) socket.close()
   }
   
