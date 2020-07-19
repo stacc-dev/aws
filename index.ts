@@ -93,7 +93,7 @@ app.ws('/server', (socket) => {
 
   const listener = (token: string, users: number) => {
     if (token !== state.token) return
-    socket.send(JSON.stringify({ type: 'USERS', users }))
+    if (socket.readyState === socket.OPEN) socket.send(JSON.stringify({ type: 'USERS', users }))
   }
 
   const terminate = (message?: string) => {
