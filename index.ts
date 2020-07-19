@@ -138,4 +138,4 @@ app.ws('/server', (socket) => {
   })
 })
 
-app.listen(6969, () => console.log('Server is up!'))
+app.listen(4200, () => console.log('Server is up!'))
