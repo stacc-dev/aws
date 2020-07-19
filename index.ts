@@ -42,7 +42,7 @@ app.ws('/client', (socket) => {
     for (let timeout of state.timeouts) clearTimeout(timeout)
     for (let interval of state.intervals) clearInterval(interval)
     if (state.token) tokenStore.decrement(state.token)
-    socket.close()
+    if (socket.readyState === socket.OPEN) socket.close()
   }
 
   state.timeouts.push(setTimeout(() => {
@@ -79,6 +79,8 @@ app.ws('/client', (socket) => {
       }
     }
   })
+
+  socket.addEventListener('close', () => terminate())
 })
 
 app.ws('/server', (socket) => {
@@ -98,7 +100,6 @@ app.ws('/server', (socket) => {
     if (message) socket.send(JSON.stringify({ type: 'MESSAGE', message }))
     for (let timeout of state.timeouts) clearTimeout(timeout)
     for (let interval of state.intervals) clearInterval(interval)
-    tokenStore.off('realtime', listener)
     if (socket.readyState === socket.OPEN) socket.close()
   }
   
