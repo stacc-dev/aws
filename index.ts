@@ -122,7 +122,7 @@ app.ws('/server', (socket) => {
           .where('token', '==', payload.token)
           .get()
         if (websites.empty) return terminate('Token invalid or website not found')
-        if (websites.docs[0].get('uid') !== user.uid) return terminate('You aren\'t the owner')
+        // if (websites.docs[0].get('uid') !== user.uid) return terminate('You aren\'t the owner')
 
         state.token = websites.docs[0].get('token') as string
         tokenStore.on('realtime', listener)
