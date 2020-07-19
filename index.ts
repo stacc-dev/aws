@@ -99,7 +99,7 @@ app.ws('/server', (socket) => {
     for (let timeout of state.timeouts) clearTimeout(timeout)
     for (let interval of state.intervals) clearInterval(interval)
     tokenStore.off('realtime', listener)
-    socket.close()
+    if (socket.readyState === socket.OPEN) socket.close()
   }
   
   socket.addEventListener('message', async (message) => {
@@ -121,11 +121,9 @@ app.ws('/server', (socket) => {
           .where('token', '==', payload.token)
           .get()
         if (websites.empty) return terminate('Token invalid or website not found')
+        if (websites.docs[0].get('uid') !== user.uid) return terminate('You aren\'t the owner')
 
-        const website = await websites.docs[0].ref.get()
-        if (website.get('uid') !== user.uid) return terminate('You aren\'t the owner')
-
-        state.token = website.get('token') as string
+        state.token = websites.docs[0].get('token') as string
         tokenStore.on('realtime', listener)
         listener(state.token, tokenStore.get(state.token))
 
@@ -138,6 +136,8 @@ app.ws('/server', (socket) => {
       }
     }
   })
+
+  socket.addEventListener('close', () => terminate())
 })
 
 app.listen(4200, () => console.log('Server is up!'))
