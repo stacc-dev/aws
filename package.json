@@ -17,6 +17,7 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "dev": "nodemon index.ts --exec ts-node"
+    "dev": "nodemon index.ts --exec ts-node",
+    "start": "ts-node index.ts"
   }
 }
