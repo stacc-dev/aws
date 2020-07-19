@@ -5,7 +5,7 @@ export declare interface TokenStore {
 }
 
 export class TokenStore extends EventEmitter {
-  tokens: { [key: string]: number } = {}
+  private tokens: { [key: string]: number } = {}
 
   increment(token: string) {
     if (token in this.tokens) {
@@ -23,5 +23,9 @@ export class TokenStore extends EventEmitter {
       this.tokens[token] = 0
     }
     this.emit('realtime', token, this.tokens[token])
+  }
+
+  get(token: string) {
+    return this.tokens[token] ?? 0
   }
 }

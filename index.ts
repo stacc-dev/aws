@@ -120,12 +120,14 @@ app.ws('/server', (socket) => {
           .collection('websites')
           .where('token', '==', payload.token)
           .get()
-        
         if (websites.empty) return terminate('Token invalid or website not found')
-        if (websites.docs[0].get('uid') !== user.uid) return terminate('You aren\'t the owner')
 
-        state.token = payload.token as string
+        const website = await websites.docs[0].ref.get()
+        if (website.get('uid') !== user.uid) return terminate('You aren\'t the owner')
+
+        state.token = website.get('token') as string
         tokenStore.on('realtime', listener)
+        listener(state.token, tokenStore.get(state.token))
 
         break
       }
