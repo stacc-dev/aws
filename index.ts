@@ -142,4 +142,4 @@ app.ws('/server', (socket) => {
   socket.addEventListener('close', () => terminate())
 })
 
-app.listen(4200, () => console.log('Server is up!'))
+app.listen(process.env.PORT || 4200, () => console.log('Server is up!'))
